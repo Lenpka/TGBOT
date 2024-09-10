@@ -5,10 +5,12 @@ from aiogram.types import Audio
 from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
 from aiogram.types import Message
-
+import os
+import dotenv
+dotenv.load_dotenv()
 # Вместо BOT TOKEN HERE нужно вставить токен вашего бота,
 # полученный у @BotFather
-BOT_TOKEN = '7392036746:AAHQQ1PS27ZxY1NvsfPMPR0h0oy6R4Y2fBQ'
+BOT_TOKEN = os.getenv('BOT_TOKEN')
 
 
 # Создаем объекты бота и диспетчера
