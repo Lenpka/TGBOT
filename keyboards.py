@@ -3,19 +3,19 @@ import logging
 from aiogram import Bot
 from aiogram.types import BotCommand, BotCommandScopeDefault
 from fluentogram import TranslatorRunner
-
+from lexicon_ru import LEXICON_COMMANDS_RU
 logger = logging.getLogger(__name__)
 
-async def set_main_menu_button(bot:Bot, i18n, TranslatorRunner):
-    menu_commands = {
-        '/lang': i18n.lang.command.descrition(),
-        '/help': i18n.help.command.description()
-
-    }
-    main_menu_commands = [
+def get_command_menu() -> list[BotCommand]:
+    command_menu = [
         BotCommand(
             command=command,
             description=description
-        ) for command, description in menu_commands
+        ) for command, description in LEXICON_COMMANDS_RU.items()
     ]
-    await bot.set_my_commands(main_menu_commands, scope = BotCommandScopeDefault())
+    return command_menu
+
+
+# Функция для настройки кнопки Menu бота
+async def set_main_menu(bot: Bot):
+    await bot.set_my_commands(get_command_menu())

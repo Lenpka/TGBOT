@@ -1,22 +1,46 @@
-from aiogram.types import ContentType
-from aiogram import F, B
+from aiogram.client.default import DefaultBotProperties
 from aiogram import types
 from aiogram.types import Audio
 from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
+from handlers import user_handlerctrlcctrrlv
 from aiogram.types import Message, BotCommand
-import os
-import dotenv
+import os, asyncio
+import dotenv, logging
 dotenv.load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
-from classes import English, Seminar_Chemistry, Lunch, Practice
-from keyboards import set_main_menu_button
-
-
+logger = logging.getLogger(__name__)
+#from classes import English, Seminar_Chemistry, Lunch, Practice
+from keyboards import set_main_menu
 async def main():
-    bot = Bot(token = BOT_TOKEN, parse_mode = "HTML")
+    logging.basicConfig(level=logging.DEBUG,
+                        format='[{asctime}] #{levelname:8} {filename}:{lineno} - {name} - {message}',
+                        style='{'
+                        )
+
+    logger.info('Starting Bot')
+
+    bot: Bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode='HTML'))
     dp = Dispatcher()
-    await set_main_menu_button(bot)
+
+    dp.include_routers(user_handlerctrlcctrrlv.router)
+
+    await set_main_menu(bot)
+    # Эта строчка по идее должна быть аналогом предыдущей, но почему то она не работает
+    # await bot.set_my_commands(get_command_menu())
+
+    # Удаляем сообщения, которые пришли ранее
+    await bot.delete_webhook(drop_pending_updates=True)
+    await dp.start_polling(bot)
+
+
+if __name__ == '__main__':
+    asyncio.run(main())
+
+# async def main():
+#     bot = Bot(token = BOT_TOKEN, parse_mode = "HTML")
+#     dp = Dispatcher()
+#     await set_main_menu_button(bot)
 # Создаем объекты бота и диспетчера
 # bot = Bot(token=BOT_TOKEN)
 # dp = Dispatcher()
