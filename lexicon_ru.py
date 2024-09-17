@@ -1,6 +1,6 @@
-LEXICON_COMMANDS_RU: dict[str, str] = {
-    '/start': 'начнем',
+LEXICON_COMMAND_RU: dict[str, str] = {
+    '/scheduletoday': 'начнем',
     '/help': 'помощь',
-    '/schedule': 'прислатьрасписание',
+    '/scheduletommorow': 'прислатьрасписание',
     '/homework': 'чтозадали'
 }

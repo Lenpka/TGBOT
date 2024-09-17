@@ -3,7 +3,7 @@ import logging
 from aiogram import Bot
 from aiogram.types import BotCommand, BotCommandScopeDefault
 from fluentogram import TranslatorRunner
-from lexicon_ru import LEXICON_COMMANDS_RU
+from lexicon_ru import LEXICON_COMMAND_RU
 logger = logging.getLogger(__name__)
 
 def get_command_menu() -> list[BotCommand]:
@@ -11,7 +11,7 @@ def get_command_menu() -> list[BotCommand]:
         BotCommand(
             command=command,
             description=description
-        ) for command, description in LEXICON_COMMANDS_RU.items()
+        ) for command, description in LEXICON_COMMAND_RU.items()
     ]
     return command_menu
 

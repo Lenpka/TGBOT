@@ -4,12 +4,19 @@ from aiogram.types import Audio
 from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
 from handlers import user_handlerctrlcctrrlv
+from aiogram.enums.parse_mode import ParseMode
 from aiogram.types import Message, BotCommand
+from schedule import FNM_first_course
 import os, asyncio
 import dotenv, logging
+from datetime import datetime, timedelta
+from keyboards import get_command_menu
 dotenv.load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 logger = logging.getLogger(__name__)
+bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+dp = Dispatcher()
+
 #from classes import English, Seminar_Chemistry, Lunch, Practice
 from keyboards import set_main_menu
 async def main():
@@ -20,20 +27,42 @@ async def main():
 
     logger.info('Starting Bot')
 
-    bot: Bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode='HTML'))
-    dp = Dispatcher()
 
     dp.include_routers(user_handlerctrlcctrrlv.router)
 
     await set_main_menu(bot)
     # Эта строчка по идее должна быть аналогом предыдущей, но почему то она не работает
-    # await bot.set_my_commands(get_command_menu())
+    await bot.set_my_commands(get_command_menu())
 
     # Удаляем сообщения, которые пришли ранее
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
+def get_schedule_for_today(day:str) -> str:
+    if day not in FNM_first_course:
+        return "Сегодня нет расписания"
+    lessons = FNM_first_course[day]
+    if not lessons:
+        return "Выходной день!"
+    return "\n\n".join([str(lesson) for lesson in lessons])
+# Получение расписания на сегодня
+def get_schedule_today() -> str:
+    today = datetime.today().strftime('%A')
+    return f"Расписание на {today}:\n\n" + get_schedule_for_today(today)
 
+# Получение расписания на завтра
+def get_schedule_tomorrow() -> str:
+    tomorrow = (datetime.today() + timedelta(days=1)).strftime('%A')
+    return f"Расписание на {tomorrow}:\n\n" + get_schedule_for_today(tomorrow)
 
+# Хэндлер для команды /today
+@dp.message(Command('/scheduletoday'))
+async def send_schedule_today(message: types.Message):
+    await message.answer(get_schedule_today(), parse_mode=ParseMode.MARKDOWN)
+
+# Хэндлер для команды /tomorrow
+@dp.message(Command('/scheduletommorow'))
+async def send_schedule_tomorrow(message: types.Message):
+    await message.answer(get_schedule_tomorrow(), parse_mode=ParseMode.MARKDOWN)
 if __name__ == '__main__':
     asyncio.run(main())
 
