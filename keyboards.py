@@ -2,7 +2,7 @@ import logging
 
 from aiogram import Bot
 from aiogram.types import BotCommand, BotCommandScopeDefault
-from fluentogram import TranslatorRunner
+# from fluentogram import TranslatorRunner
 from lexicon_ru import LEXICON_COMMAND_RU
 logger = logging.getLogger(__name__)
 

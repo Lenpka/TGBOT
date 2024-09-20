@@ -4,13 +4,19 @@ from aiogram.types import Message
 
 from lexicon_ru import LEXICON_COMMAND_RU
 from keyboards import get_command_menu
+from handlers.schedule import FNM_first_course
+import datetime
 
 router = Router()
 
 
-@router.message(CommandStart())
+@router.message(Command(commands=['scheduletoday']))
 async def process_start_command(message: Message):
-    await message.answer(text=LEXICON_COMMAND_RU['/scheduletoday'])
+    today = datetime.datetime.now()
+    day = today.strftime("%A")
+    lectures = FNM_first_course[day]
+    res = '\n'.join([str(lecture) for lecture in lectures])
+    await message.answer(res)
 
 
 @router.message(Command(commands=['help']))
@@ -18,13 +24,13 @@ async def process_help_command(message: Message):
     await message.answer(text=LEXICON_COMMAND_RU['/help'])
 
 
-@router.message(Command(commands=['deletemenu']))
+@router.message(Command(commands=['scheduletommorow']))
 async def process_deletemenu_command(message: Message, bot: Bot):
-    await bot.delete_my_commands()
+    # await bot.delete_my_commands()
     await message.answer(text=LEXICON_COMMAND_RU['/scheduletomorrow'])
 
 
-@router.message(Command(commands=['setmenu']))
+@router.message(Command(commands=['homework']))
 async def process_setmenu_command(message: Message, bot: Bot):
     await bot.set_my_commands(get_command_menu())
     await message.answer(text=LEXICON_COMMAND_RU['/homework'])
