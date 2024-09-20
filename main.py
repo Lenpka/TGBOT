@@ -30,10 +30,10 @@ async def main():
 
     dp.include_routers(user_handlerctrlcctrrlv.router)
 
-    await set_main_menu(bot)
+
     # Эта строчка по идее должна быть аналогом предыдущей, но почему то она не работает
     await bot.set_my_commands(get_command_menu())
-
+    await set_main_menu(bot)
     # Удаляем сообщения, которые пришли ранее
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)

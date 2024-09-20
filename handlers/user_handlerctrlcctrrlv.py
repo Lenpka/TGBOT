@@ -10,7 +10,7 @@ router = Router()
 
 @router.message(CommandStart())
 async def process_start_command(message: Message):
-    await message.answer(text=LEXICON_COMMAND_RU['/scheduletoday'])
+    await message.answer(text=LEXICON_COMMAND_RU['/start'])
 
 
 @router.message(Command(commands=['help']))
@@ -18,13 +18,13 @@ async def process_help_command(message: Message):
     await message.answer(text=LEXICON_COMMAND_RU['/help'])
 
 
-@router.message(Command(commands=['deletemenu']))
+@router.message(Command(commands=['/scheduletomorrow']))
 async def process_deletemenu_command(message: Message, bot: Bot):
     await bot.delete_my_commands()
     await message.answer(text=LEXICON_COMMAND_RU['/scheduletomorrow'])
 
 
-@router.message(Command(commands=['setmenu']))
+@router.message(Command(commands=['/homework']))
 async def process_setmenu_command(message: Message, bot: Bot):
     await bot.set_my_commands(get_command_menu())
     await message.answer(text=LEXICON_COMMAND_RU['/homework'])
