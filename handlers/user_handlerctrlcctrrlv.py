@@ -25,10 +25,12 @@ async def process_help_command(message: Message):
 
 
 @router.message(Command(commands=['scheduletommorow']))
-async def process_deletemenu_command(message: Message, bot: Bot):
-    # await bot.delete_my_commands()
-    await message.answer(text=LEXICON_COMMAND_RU['/scheduletomorrow'])
-
+async def tommorow_command(message: Message):
+    tommorow = datetime.datetime.now()
+    day = tommorow.strftime("%A")
+    lectures = FNM_first_course[day + 1]
+    res = '\n'.join([str(lecture) for lecture in lectures])
+    await message.answer(res)
 
 @router.message(Command(commands=['homework']))
 async def process_setmenu_command(message: Message, bot: Bot):
