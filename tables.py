@@ -20,6 +20,7 @@ class Quizzer:
             worksheet = self.spreadsheet.get_worksheet_by_id(self.students.get(student_name))
             return worksheet.get_all_records()
         return []
+    #Получение списка студентов в рейтинге
     def students_and_raitings(self, student_name):
         students = self.get_list_of_students(student_name)
         result = []
@@ -38,3 +39,4 @@ class Quizzer:
         self.raitings.update(f"C{index}:H{index}", [[
             user_id, students,raiting,max_value,f"{datetime.now()}"
         ]])
+Quizzer.write_raiting_to_result_cell()
