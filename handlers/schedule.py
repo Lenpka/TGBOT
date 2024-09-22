@@ -1,6 +1,6 @@
 
 class Lesson(object):
-    def __init__(self, name:str, time:str, teacher="Нет", comment='', place="Отдыхай", task=""):
+    def __init__(self, name:str, time = '', teacher="", comment='', place="", task=""):
         self.name = name
         self.time = time
         self.teacher = teacher
@@ -11,12 +11,16 @@ class Lesson(object):
         result = f"{self.name}  ({self.time})"
         if self.teacher:
             result += f"\nИмя преподавателя - {self.teacher}"
+            result += "\n "
         if self.place:
             result += f"\nНомер аудитории - {self.place}"
+            result += "\n "
         if self.comment:
             result += f"\nКомментарий - {self.comment}"
+            result += "\n "
         if self.task:
             result += f"\nЗадание - {self.task}"
+            result += "\n "
         return result
 
 # TODO - Удалить

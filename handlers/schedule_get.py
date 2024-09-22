@@ -44,10 +44,35 @@ def schedule_test_get_data() -> dict:
             teacher=dat['Преподаватель'],
             comment=dat['Комментарий'],
             place=dat['Аудитория'],
-            task=dat['Домашнее задание']
                      )
         schedule[day].append(lesson)
     return schedule
+def homework_get_data() -> dict:
+    client = service_account(filename='./tgbot.json')
+    tables = get_table_by_url(client, table_link_schedule)
+    data = extract_data_from_sheet(tables, "1 бак.")
+    works = defaultdict()
+    works["Sunday"] = [
+        handlers.schedule.Lesson(
+            name = 'Выходной',
+            time = '',
+    )]
+    day = ''
+    time = ''
+    name = ''
 
+    for dat in data:
+        if dat['День недели']:
+            day = compareDays[dat["День недели"]]
+            works[day] = []
+        if dat['Учебная дисциплина']:
+            name = dat['Учебная дисциплина']
+        lesson = handlers.schedule.Lesson(
+            name=name,
+            teacher=dat['Преподаватель'],
+            task=dat['Домашнее задание']
+                     )
+        works[day].append(lesson)
+    return works
 if __name__ == "__main__":
     print(schedule_test_get_data())

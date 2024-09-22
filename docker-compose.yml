@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  dnd-bot:
+    build: .
+    image: jskonst/leonid
+    container_name: fnmbot
+    env_file:
+      - .env
+    volumes:
+      - ./tgbot.json:/app/tgbot.json
