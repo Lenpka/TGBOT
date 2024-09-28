@@ -11,10 +11,8 @@ class Lesson(object):
         result = f"{self.name}  ({self.time})"
         if self.teacher:
             result += f"\nИмя преподавателя - {self.teacher}"
-            result += "\n "
         if self.place:
             result += f"\nНомер аудитории - {self.place}"
-            result += "\n "
         if self.comment:
             result += f"\nКомментарий - {self.comment}"
             result += "\n "

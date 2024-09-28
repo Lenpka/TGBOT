@@ -32,7 +32,7 @@ def test_get_table(table_url: str):
     print('Инфо по таблице по ссылке: ', table)
 
 
-def main():
+def main_get():
     client = client_init_json()
     table = get_table_by_url(client, table_link)
 
@@ -65,4 +65,4 @@ def test_get_data():
 
 
 if __name__ == '__main__':
-    test_get_data()
+     test_get_data()

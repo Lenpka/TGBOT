@@ -8,7 +8,8 @@ from keyboards import get_command_menu
 from keyboards import set_main_menu
 import dotenv
 import os
-
+from decouple import config
+#admins = [int(admin_id) for admin_id in config('ADMINS').split(',')]
 dotenv.load_dotenv()
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')

@@ -1,7 +1,10 @@
-from testtables import get_table_by_url, client_init_json
+from testtables import get_table_by_url, client_init_json, get_worksheet_info
+from gspread import Client, Spreadsheet, Worksheet, exceptions
+from typing import List, Dict
+
 from gspread import spreadsheet
 homework = "https://docs.google.com/spreadsheets/d/1GDyS3jw3tPuYKNxmjaSxGjQoRG2MqOOVpZRttTE7nnA/edit?gid=153533360#gid=153533360"
-def insert_one(table:spreadsheet, title:str, data:list, index:int = 1):
+def insert_one(table:Spreadsheet, title:str, data:list, index:int = 1):
     """Вставка данных в лист"""
     worksheet = table.Worksheet(title)
     worksheet.insert_row(data, index=index)
@@ -16,8 +19,7 @@ def test_data_load():
                data = [])
     return insert_one
 
-
-def add_data_to_worksheet_var_2(table: Spreadsheet, title: str, data: List[Dict], start_row: int = 2) -> None:
+def add_data_to_worksheet_var_1(table: Spreadsheet, title: str, data: List[Dict], start_row: int = 2) -> None:
     """
     Добавляет данные на рабочий лист в Google Sheets.
 
@@ -31,19 +33,9 @@ def add_data_to_worksheet_var_2(table: Spreadsheet, title: str, data: List[Dict]
     except exceptions.WorksheetNotFound:
         worksheet = create_worksheet(table, title, rows=100, cols=20)
 
-    headers = data[0].keys()
-    end_row = start_row + len(data) - 1
-    end_col = chr(ord('A') + len(headers) - 1)
+    # Преобразуем список словарей в список списков для добавления через insert_rows
+    headers = list(data[0].keys())
+    rows = [[row[header] for header in headers] for row in data]
 
-    cell_range = f'A{start_row}:{end_col}{end_row}'
-    cell_list = worksheet.range(cell_range)
-
-    flat_data = []
-    for row in data:
-        for header in headers:
-            flat_data.append(row[header])
-
-    for i, cell in enumerate(cell_list):
-        cell.value = flat_data[i]
-
-    worksheet.update_cells(cell_list)
+    # Вставляем строки с данными в рабочий лист
+    worksheet.insert_col(c, row=start_row)
