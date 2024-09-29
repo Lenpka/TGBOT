@@ -4,5 +4,7 @@ LEXICON_COMMAND_RU: dict[str, str] = {
     '/scheduleaftertommorow': 'прислать расписание на послезавтра',
     '/homework': 'что задали на завтра?',
     '/homeworknotnow': 'что задали на послезавтра?',
-    '/start' : 'удобное меню с кнопками'
+    '/start' : 'удобное меню с кнопками',
+    '/registration' : 'регистрация',
+    '/cancelregistration': 'отмена регистрации',
 }
