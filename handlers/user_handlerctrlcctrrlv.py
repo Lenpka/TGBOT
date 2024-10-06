@@ -9,7 +9,7 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.fsm.context import FSMContext
 from keyboards import get_command_menu
 import datetime
-
+from handlers.raiting_get import raiting_test_get_data
 # from handlers.schedule_get import schedule_test_get_data
 from keyboard.all_kb import main_kb
 router = Router()
@@ -117,7 +117,10 @@ async def process_setmenu_command(message: Message, bot: Bot):
     tommorow = datetime.datetime.now() + datetime.timedelta(days=2)
     res = getWork(tommorow)
     await message.answer(res)
-
+@router.message(Command(commands=['raiting']))
+async def process_registration(message: Message, bot: Bot):
+    res = str(raiting_test_get_data(user_dict[message.from_user.id]["name"]))
+    await message.answer(res)
 
     
 # Этот хэндлер будет срабатывать на отправку команды /showdata
