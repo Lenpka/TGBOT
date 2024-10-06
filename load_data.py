@@ -19,23 +19,23 @@ def test_data_load():
                data = [])
     return insert_one
 
-def add_data_to_worksheet_var_1(table: Spreadsheet, title: str, data: List[Dict], start_row: int = 2) -> None:
-    """
-    Добавляет данные на рабочий лист в Google Sheets.
+# def add_data_to_worksheet_var_1(table: Spreadsheet, title: str, data: List[Dict], start_row: int = 2) -> None:
+#     """
+#     Добавляет данные на рабочий лист в Google Sheets.
 
-    :param table: Объект таблицы (Spreadsheet).
-    :param title: Название рабочего листа.
-    :param data: Список словарей с данными.
-    :param start_row: Номер строки, с которой начнется добавление данных.
-    """
-    try:
-        worksheet = table.worksheet(title)
-    except exceptions.WorksheetNotFound:
-        worksheet = create_worksheet(table, title, rows=100, cols=20)
+#     :param table: Объект таблицы (Spreadsheet).
+#     :param title: Название рабочего листа.
+#     :param data: Список словарей с данными.
+#     :param start_row: Номер строки, с которой начнется добавление данных.
+#     """
+#     try:
+#         worksheet = table.worksheet(title)
+#     except exceptions.WorksheetNotFound:
+#         #worksheet = create_worksheet(table, title, rows=100, cols=20)
 
-    # Преобразуем список словарей в список списков для добавления через insert_rows
-    headers = list(data[0].keys())
-    rows = [[row[header] for header in headers] for row in data]
+#     # Преобразуем список словарей в список списков для добавления через insert_rows
+#     headers = list(data[0].keys())
+#     rows = [[row[header] for header in headers] for row in data]
 
-    # Вставляем строки с данными в рабочий лист
-    worksheet.insert_col(c, row=start_row)
+#     # Вставляем строки с данными в рабочий лист
+#     worksheet.insert_col(c, row=start_row)

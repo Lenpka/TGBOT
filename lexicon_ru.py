@@ -7,4 +7,5 @@ LEXICON_COMMAND_RU: dict[str, str] = {
     '/start' : 'удобное меню с кнопками',
     '/registration' : 'регистрация',
     '/cancelregistration': 'отмена регистрации',
+    '/showdata': 'показать данные'
 }

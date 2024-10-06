@@ -5,7 +5,8 @@ import redis
 import os
 dotenv.load_dotenv()
 from aiogram.fsm.storage.redis import RedisStorage
-r = redis.Redis(host=os.getenv('REDIS_URL'), port=6379, db=0, username='default', password=os.getenv('PASSWORD'))
+add = os.getenv('REDIS_URL')
+r = redis.Redis(host=add, port=6379, db=0, username='default', password=os.getenv('PASSWORD'))
 # password = 'starwars'
 # password_hash = hashlib.sha256(password.encode()).hexdigest()
 # print(password_hash)
