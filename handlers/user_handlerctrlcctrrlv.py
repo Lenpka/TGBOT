@@ -119,9 +119,15 @@ async def process_setmenu_command(message: Message, bot: Bot):
     await message.answer(res)
 @router.message(Command(commands=['raiting']))
 async def process_registration(message: Message, bot: Bot):
-    res = str(raiting_test_get_data(user_dict[message.from_user.id]["name"]))
-    await message.answer(res)
-
+    res = raiting_test_get_data(user_dict[message.from_user.id]["name"])
+    await message.answer(f'У тебя {res[0]}% из 100% возможных, из {res[1]} МАКСИМАЛЬНО тобою возможных у тебя {res[2]}. За контрольные ты набрал {res[3]}% из 100%')
+@router.message(StateFilter(FSMFillForm.fill_name))
+async def warning_not_name(message: Message):
+    await message.answer(
+        text='То, что вы отправили не похоже на имя\n\n'
+             'Пожалуйста, введите ваше имя\n\n'
+             'Если вы хотите прервать заполнение анкеты - '
+             'отправьте команду /cancel')
     
 # Этот хэндлер будет срабатывать на отправку команды /showdata
 # и отправлять в чат данные анкеты, либо сообщение об отсутствии данных
@@ -141,7 +147,7 @@ async def process_showdata_command(message: Message):
         # Если анкеты пользователя в базе нет - предлагаем заполнить
         await message.answer(
             text='Вы еще не заполняли анкету. Чтобы приступить - '
-            'отправьте команду /fillform'
+            'отправьте команду /registration'
         )
 
 
