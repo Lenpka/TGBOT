@@ -5,6 +5,8 @@ from aiogram import Bot, Dispatcher
 from aiogram.filters import Command, CommandStart
 from aiogram import F
 import os
+import requests
+
 BOT_TOKEN:str
 BOT_TOKEN = os.getenv("BOT_TOKEN") # Важно локально указать переменную
 
@@ -40,6 +42,13 @@ async def youGuess(message:Message):
         global value
         value = getRandom()
 
+@disp.message(Command(commands="update"))
+async def getUpdate(message:Message):
+    update = requests.get(f'https://api.telegram.org/bot{BOT_TOKEN}/getUpdates').json()
+    print(update)
+    print(message.model_dump_json(indent=4, exclude_none=True))
+    if update['result']:
+        await message.answer(f"{update}")
 
         
 
